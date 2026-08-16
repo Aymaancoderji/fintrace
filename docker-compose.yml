@@ -1,0 +1,50 @@
+# Local development infrastructure only — run the API and worker on the host
+# with `npm run dev` / `npm run worker`. For the full containerized stack, see
+# docker-compose.prod.yml.
+
+services:
+  neo4j:
+    image: neo4j:5-community
+    ports:
+      - '7474:7474'
+      - '7687:7687'
+    environment:
+      NEO4J_AUTH: neo4j/fintrace_dev
+    volumes:
+      - neo4j_data:/data
+    healthcheck:
+      test: ['CMD-SHELL', 'cypher-shell -u neo4j -p fintrace_dev "RETURN 1" || exit 1']
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 30s
+
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: fintrace
+      POSTGRES_PASSWORD: fintrace_dev
+      POSTGRES_DB: fintrace
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U fintrace -d fintrace']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  neo4j_data:
+  postgres_data:
