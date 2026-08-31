@@ -60,6 +60,9 @@ export function CaseDetailPage() {
 
   return (
     <div>
+      <Link to="/cases" className="btn-link back-link">
+        ← Back to cases
+      </Link>
       <div className="page-header">
         <h1>{caseDetail.title}</h1>
         <label className="field-inline">

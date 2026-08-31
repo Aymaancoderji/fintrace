@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { createCase } from '../api/endpoints';
 import { ApiError } from '../api/client';
 import { ErrorMessage } from '../components/StatusMessage';
@@ -43,6 +43,9 @@ export function NewCasePage() {
 
   return (
     <div>
+      <Link to="/cases" className="btn-link back-link">
+        ← Back to cases
+      </Link>
       <h1>New case</h1>
       <form className="form-card" onSubmit={handleSubmit}>
         <label className="field">
@@ -71,9 +74,14 @@ export function NewCasePage() {
 
         {error && <ErrorMessage message={error} />}
 
-        <button type="submit" className="btn-primary" disabled={submitting}>
-          {submitting ? 'Creating…' : 'Create case'}
-        </button>
+        <div className="form-actions">
+          <button type="submit" className="btn-primary" disabled={submitting}>
+            {submitting ? 'Creating…' : 'Create case'}
+          </button>
+          <Link to="/cases" className="btn-link">
+            Cancel
+          </Link>
+        </div>
       </form>
     </div>
   );

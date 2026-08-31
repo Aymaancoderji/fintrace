@@ -5,6 +5,7 @@ import { Alert } from '../api/types';
 import { ApiError } from '../api/client';
 import { EmptyState, ErrorMessage, Loading } from '../components/StatusMessage';
 import { ScoreBadge } from '../components/ScoreBadge';
+import { StatCards } from '../components/StatCards';
 
 const RULES = ['structuring', 'cycle', 'fan-in-fan-out', 'mule-network'];
 const PAGE_SIZE = 25;
@@ -60,6 +61,21 @@ export function AlertsPage() {
       </div>
 
       {runSummary && <div className="status-message status-info">{runSummary}</div>}
+
+      {alerts && alerts.length > 0 && (
+        <StatCards
+          stats={[
+            { label: 'On this page', value: alerts.length },
+            { label: 'High risk (≥0.70)', value: alerts.filter((a) => a.score >= 0.7).length, tone: 'high' },
+            {
+              label: 'Medium risk (0.35–0.69)',
+              value: alerts.filter((a) => a.score >= 0.35 && a.score < 0.7).length,
+              tone: 'medium'
+            },
+            { label: 'Low risk (<0.35)', value: alerts.filter((a) => a.score < 0.35).length, tone: 'low' }
+          ]}
+        />
+      )}
 
       <div className="toolbar">
         <label className="field-inline">

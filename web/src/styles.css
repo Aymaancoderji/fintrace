@@ -19,6 +19,30 @@
   box-sizing: border-box;
 }
 
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-raised);
+  border: 2px solid var(--bg);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border);
+}
+
 html,
 body,
 #root {
@@ -57,9 +81,22 @@ code {
 }
 
 .brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 700;
   font-size: 1.1rem;
   letter-spacing: -0.02em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: inline-flex;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px;
 }
 
 .nav {
@@ -74,6 +111,10 @@ code {
   padding: 6px 12px;
   border-radius: var(--radius);
   font-size: 0.9rem;
+}
+
+.nav-link {
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .nav-link:hover {
@@ -147,15 +188,26 @@ h2 {
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
+  transition: background 0.15s ease, transform 0.1s ease;
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
 }
 
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
 .btn-primary:disabled {
   opacity: 0.5;
   cursor: default;
+  transform: none;
+}
+
+.btn-compact {
+  padding: 6px 12px;
+  font-size: 0.82rem;
 }
 
 .btn-link {
@@ -166,10 +218,22 @@ h2 {
   font-size: 0.85rem;
   text-decoration: none;
   padding: 0;
+  transition: color 0.15s ease;
 }
 
 .btn-link:hover {
   color: var(--accent-hover);
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .chip-link {
@@ -239,6 +303,48 @@ h2 {
   max-width: 480px;
 }
 
+/* Stat cards */
+
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+
+.stat-card.stat-high {
+  border-left-color: var(--danger);
+}
+
+.stat-card.stat-medium {
+  border-left-color: var(--warning);
+}
+
+.stat-card.stat-low {
+  border-left-color: var(--success);
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.stat-label {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  margin-top: 2px;
+}
+
 /* Login */
 
 .login-screen {
@@ -246,6 +352,10 @@ h2 {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(91, 140, 255, 0.12), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(51, 196, 129, 0.1), transparent 40%),
+    var(--bg);
 }
 
 .login-card {
@@ -257,6 +367,7 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
 .login-brand {
@@ -292,6 +403,10 @@ h2 {
   padding: 10px 12px;
   border-bottom: 1px solid var(--border);
   vertical-align: top;
+}
+
+.data-table tr td {
+  transition: background 0.1s ease;
 }
 
 .data-table tr:hover td {

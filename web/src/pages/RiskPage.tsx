@@ -5,6 +5,7 @@ import { RiskScore } from '../api/types';
 import { ApiError } from '../api/client';
 import { EmptyState, ErrorMessage, Loading } from '../components/StatusMessage';
 import { ScoreBadge } from '../components/ScoreBadge';
+import { StatCards } from '../components/StatCards';
 
 export function RiskPage() {
   const [scores, setScores] = useState<RiskScore[] | null>(null);
@@ -19,6 +20,19 @@ export function RiskPage() {
   return (
     <div>
       <h1>Top risk accounts</h1>
+
+      {scores && scores.length > 0 && (
+        <StatCards
+          stats={[
+            { label: 'Accounts scored', value: scores.length },
+            { label: 'High risk (≥0.70)', value: scores.filter((s) => s.score >= 0.7).length, tone: 'high' },
+            {
+              label: 'Avg score',
+              value: (scores.reduce((sum, s) => sum + s.score, 0) / scores.length).toFixed(2)
+            }
+          ]}
+        />
+      )}
 
       {error && <ErrorMessage message={error} />}
       {!error && scores === null && <Loading />}
