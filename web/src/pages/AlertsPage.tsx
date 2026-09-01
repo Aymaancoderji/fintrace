@@ -144,18 +144,23 @@ export function AlertsPage() {
         </table>
       )}
 
-      <div className="pagination">
-        <button type="button" onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))} disabled={offset === 0}>
-          Previous
-        </button>
-        <button
-          type="button"
-          onClick={() => setOffset(offset + PAGE_SIZE)}
-          disabled={!alerts || alerts.length < PAGE_SIZE}
-        >
-          Next
-        </button>
-      </div>
+      {alerts && alerts.length > 0 && (
+        <div className="pagination">
+          <button type="button" onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))} disabled={offset === 0}>
+            Previous
+          </button>
+          <button
+            type="button"
+            onClick={() => setOffset(offset + PAGE_SIZE)}
+            disabled={alerts.length < PAGE_SIZE}
+          >
+            Next
+          </button>
+          <span className="pagination-info">
+            Showing {offset + 1}–{offset + alerts.length}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
