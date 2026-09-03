@@ -2,6 +2,8 @@ import Fastify, { FastifyInstance } from 'fastify';
 import multipart from '@fastify/multipart';
 import rateLimit from '@fastify/rate-limit';
 import cors from '@fastify/cors';
+import swagger from '@fastify/swagger';
+import swaggerUi from '@fastify/swagger-ui';
 import authPlugin from './plugins/auth.js';
 import metricsPlugin from './plugins/metrics.js';
 import { accountRoutes } from './routes/accounts.js';
@@ -10,6 +12,7 @@ import { detectionRoutes } from './routes/detection.js';
 import { authRoutes } from './routes/auth.js';
 import { caseRoutes } from './routes/cases.js';
 import { env } from './config/env.js';
+import { openApiDocument } from './docs/openapi.js';
 
 export function buildApp(): FastifyInstance {
   const app = Fastify({ logger: true });
@@ -28,6 +31,8 @@ export function buildApp(): FastifyInstance {
   });
   app.register(authPlugin);
   app.register(metricsPlugin);
+  app.register(swagger, { mode: 'static', specification: { document: openApiDocument } });
+  app.register(swaggerUi, { routePrefix: '/docs' });
 
   app.get('/health', async () => {
     return { status: 'ok' };

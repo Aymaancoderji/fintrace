@@ -44,6 +44,7 @@ The plan below sequences the build so that each phase ends in something runnable
 - Full REST API surface: accounts, transactions, alerts, cases, graph-neighborhood queries (`GET /accounts/:id/subgraph?depth=2`)
 - AuthN/AuthZ (JWT, role-based: analyst vs admin)
 - **Deliverable**: a documented (OpenAPI) API where an analyst workflow — ingest → alert → investigate subgraph → open case — works end-to-end via curl/Postman
+  - [x] `GET /docs` (Swagger UI) + `GET /docs/json` (raw spec), `src/docs/openapi.ts`, covering all 16 routes
 
 ## Phase 4 — Performance & Production Hardening
 - Load testing ingestion + detection at volume (synthetic data generator, k6 or autocannon)
@@ -95,4 +96,4 @@ The repo currently has **zero git commits** — everything above is staged/untra
 - CI must stay green before moving to the next phase
 
 ## Immediate Next Step
-Phases 0-5 are complete. Start Phase 6: add `.env.docker.example` and get `docker compose -f docker-compose.prod.yml up --build` running end-to-end (requires a Docker daemon, which the current dev environment lacks — run it wherever Docker is available).
+Phases 0-5 are complete, and the Phase 3 OpenAPI docs gap is closed (`GET /docs`). CI now also lints/typechecks/builds `web/` (previously only the API was checked). Start Phase 6: add `.env.docker.example` and get `docker compose -f docker-compose.prod.yml up --build` running end-to-end (requires a Docker daemon, which the current dev environment lacks — run it wherever Docker is available).

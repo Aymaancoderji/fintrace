@@ -131,6 +131,12 @@ This closes the analyst workflow end-to-end: ingest → `POST /detection/run` �
 `GET /alerts` / `GET /accounts/:id/subgraph` to investigate → `POST /cases` to
 open a case and annotate it.
 
+## API docs
+
+`GET /docs` serves an interactive Swagger UI over the full API surface (auth
+excluded, since it's the one unauthenticated route); the raw spec is at
+`GET /docs/json` (`src/docs/openapi.ts`).
+
 ## Performance & hardening (Phase 4)
 
 - **Rate limiting** (`@fastify/rate-limit`): global default of `RATE_LIMIT_MAX` requests per `RATE_LIMIT_WINDOW_MS` per client (300/min by default); `POST /auth/login` has its own stricter limit (10/min) to slow down credential stuffing.
