@@ -82,12 +82,11 @@ Groundwork exists (`Dockerfile`, `web/Dockerfile`, `web/nginx.conf`, `docker-com
 - **Deliverable**: a live, link-able demo URL
 
 ## Phase 9 — Final Polish & First Commit
-The repo currently has **zero git commits** — everything above is staged/untracked in one working tree. This phase is also where real history starts.
 - [x] Architecture diagram (`docs/architecture.svg`, embedded in `README.md`)
 - [x] Sample alert walkthrough (curl-based, in `README.md`) covering ingest → detect → alerts → subgraph → case
 - [x] "Why this matters" AML framing for non-technical reviewers, in `README.md`
+- [x] Staged and committed in logical chunks (scaffolding/ingestion/detection/API, web UI polish, OpenAPI docs + CI) rather than one giant initial commit, so the history reads as a coherent build
 - [ ] Screenshots/demo GIF of the actual running UI — needs the live stack (Phase 6/8), not done here
-- [ ] Stage and commit in logical chunks (scaffolding, ingestion, detection engine, scoring/cases/API, hardening, UI, deployment) rather than one giant initial commit, so the history itself reads as a coherent build — not done yet, pending explicit go-ahead
 - **Deliverable**: a polished repo with real commit history, ready to link from a resume
 
 ## Verification Approach (applies throughout)
@@ -96,4 +95,6 @@ The repo currently has **zero git commits** — everything above is staged/untra
 - CI must stay green before moving to the next phase
 
 ## Immediate Next Step
-Phases 0-5 are complete, and the Phase 3 OpenAPI docs gap is closed (`GET /docs`). CI now also lints/typechecks/builds `web/` (previously only the API was checked). Start Phase 6: add `.env.docker.example` and get `docker compose -f docker-compose.prod.yml up --build` running end-to-end (requires a Docker daemon, which the current dev environment lacks — run it wherever Docker is available).
+Phases 0-5 are complete, and the Phase 3 OpenAPI docs gap is closed (`GET /docs`). CI now also lints/typechecks/builds `web/` (previously only the API was checked).
+
+Phase 6's static wiring was re-verified in this session (2026-09-04): `src/config/env.ts`'s schema still matches every var `docker-compose.prod.yml` injects (`NODE_ENV`, `NEO4J_URI/USER/PASSWORD`, `DATABASE_URL`, `REDIS_URL`, `JWT_SECRET`, `WEB_ORIGIN`), the prod-JWT-secret guard is intact, and `Dockerfile`/`web/Dockerfile`/`web/nginx.conf` still match the compose file's commands and ports. `npm run lint`, `npm run typecheck`, and `npm test` all pass on `master`. Docker is still not available in this dev environment (no `docker` binary, no passwordless `sudo` to install it), so Phase 6's actual `docker compose up --build` run, Phase 7's live benchmarks, and Phase 8's deployment remain blocked here and need to be run wherever Docker is available.
